@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+{% if app.user %}
+    <h1>Home Page : {{ app.user.email }}</h1>
+{% else %}
+    <h1>Home Page</h1>
+{% endif %}
+    
+{% endblock %}
