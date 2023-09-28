@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Calendar{% endblock %}
-
-{% block stylesheets %}
-    <style>
-        #calendar{
-            width: 80%;
-            margin: auto;
-        }
-    </style>
-{% endblock %}
+{% block title %}Evenement index{% endblock %}
 
 {% block body %}
-    <h1>Calendar</h1>
-    
-    <div id="calendar"></div>
+    <h1>Evenement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomEvenement</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.nomEvenement }}</td>
+                <td>{{ evenement.dateDebut ? evenement.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ evenement.dateFin ? evenement.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
+                    <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_evenement_new') }}">Create new</a>
 {% endblock %}
-
-{% block javascripts %}
-    {# Permet d'inclure le javascript du template parent (de base.html.twig) dans le cas où en a besoin sur toute les pages #}
-    {{ parent() }}
-
-    {# Ajout de Full Calendar #}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js" integrity="sha256-alsi6DkexWIdeVDEct5s7cnqsWgOqsh2ihuIZbU6H3I=" crossorigin="anonymous"></script>
-
-    {# Affichage d'un calendrier #}
-    <script>
-        window.onload = () => {
-            let calendarElt = document.querySelector("#calendar");
-
-            let calendar = new FullCalendar.Calendar(calendarElt, {
-                initialView: 'dayGridMonth'
-            });
-            
-            calendar.render();
-        };
-    </script>
-{% endblock  %}
