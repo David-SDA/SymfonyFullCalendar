@@ -18,8 +18,13 @@
 {% endblock %}
 
 {% block javascripts %}
+    {# Permet d'inclure le javascript du template parent (de base.html.twig) dans le cas où en a besoin sur toute les pages #}
     {{ parent() }}
-    
+
+    {# Ajout de Full Calendar #}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js" integrity="sha256-alsi6DkexWIdeVDEct5s7cnqsWgOqsh2ihuIZbU6H3I=" crossorigin="anonymous"></script>
+
+    {# Affichage d'un calendrier #}
     <script>
         window.onload = () => {
             let calendarElt = document.querySelector("#calendar");
