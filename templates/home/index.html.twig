@@ -35,14 +35,59 @@
             let calendarElt = document.querySelector("#calendar");
 
             let calendar = new FullCalendar.Calendar(calendarElt, {
-                initialView: 'dayGridMonth',
+                initialView: 'timeGridWeek',
+                allDaySlot: false,
                 locale: 'locale',
                 headerToolbar: {
                     start: 'prev,next today',
                     center: 'title',
-                    end: 'dayGridMonth,timeGridWeek,timeGridDay,list',
+                    end: 'season,dayGridMonth,timeGridWeek,timeGridDay,listWeek',
                 },
-                events: {{ data|raw }}
+                firstDay: 1,
+                views: {
+                    dayGrid: {
+                        dayMaxEvents: 3,
+                    },
+                    timeGrid: {
+                        eventMaxStack: 2
+                    },
+                    season: {
+                        type: 'dayGrid',
+                        duration: { month: 3 },
+                        buttonText: 'Season',
+                        titleFormat: function (info){
+                            console.log(info);
+                            var startMonth = info.date.getMonth();
+                            var seasonTitle = '';
+
+                            switch (startMonth) {
+                                case 0:
+                                case 1:
+                                case 2:
+                                    seasonTitle = 'Winter';
+                                    break;
+                                case 3:
+                                case 4:
+                                case 5:
+                                    seasonTitle = 'Spring';
+                                    break;
+                                case 6:
+                                case 7: 
+                                case 8:
+                                    seasonTitle = 'Summer';
+                                    break;
+                                case 9:
+                                case 10:
+                                case 11:
+                                    seasonTitle = 'Fall';
+                                    break;
+                            }
+
+                            return seasonTitle + ' ' + info.date.getFullYear();
+                        }
+                    }
+                },
+                events: {{ data|raw }},
             })
             
             calendar.render();
